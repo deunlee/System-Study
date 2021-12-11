@@ -3,8 +3,10 @@
 #include <string.h>
 #include <time.h>
 
-char* names[] = { "Alice", "Bob",   "Chris",   "Dod", "Evan", 
-                  "Fint",  "Gregg", "Brendan", "Roy", "Susan" };
+#define MAX_STUDENTS 100
+
+char* names[] = { "Alice", "Bob", "Chris", "Dod", "Evan", 
+                  "Fint", "Gregg", "Brendan", "Roy", "Susan"};
 int name_cnt = sizeof(names) / sizeof(char*);
 
 struct student {
@@ -28,11 +30,11 @@ int main(int argc, char* argv[]) {
 
     fp = fopen(argv[1], "wb");
     if (fp == NULL) {
-        perror("Failed to open a file.");
+        perror("[Error] Failed to open a file");
         return 1;
     }
 
-    n = (rand() % 100) + 1;
+    n = (rand() % MAX_STUDENTS) + 1; // 학생수는 랜덤값 사용
     printf("Number of students: %d\n\n", n);
  
     for (i = 1; i <= n; i++) {
@@ -42,7 +44,7 @@ int main(int argc, char* argv[]) {
         s.score2 = (rand() % 10000) / 100.0;
         printf("%d %-10s : %5.2f / %5.2f\n", s.id, s.name, s.score1, s.score2);
     
-        fwrite(&s, sizeof(s), 1, fp);
+        fwrite(&s, sizeof(s), 1, fp); // 구조체 기록
     }
 
     fclose(fp);
