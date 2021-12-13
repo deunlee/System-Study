@@ -37,7 +37,8 @@ void* counting(void* arg) {
 }
 
 int main(int argc, char* argv[]) {
-    int i, j, *status, args[MAX_THREADS];
+    int i, j, args[MAX_THREADS];
+    int* ret;
 
     if (argc != 2) {
         printf("Usage: ./counting <num of thread>\n");
@@ -66,8 +67,8 @@ int main(int argc, char* argv[]) {
     }
 
     for (j = 0; j < i; j++) {
-        pthread_join(tid[j], (void**)&status);
-        printf("Thread #%d returned %d\n", j, *status);
+        pthread_join(tid[j], (void**)&ret);
+        printf("Thread #%d returned %d\n", j, *ret);
     }
 
     return 0;
