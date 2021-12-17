@@ -17,7 +17,7 @@ int main() {
     char buffer_recv[BUFFER_SIZE] = { 0, };
     char buffer_send[] = "hello from client~";
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0); // SOCK_STREAM == TCP
 
     bzero(&server_addr, sizeof(server_addr));
     server_addr.sin_family      = AF_INET;
@@ -28,8 +28,7 @@ int main() {
         printf("[Client] Cannot connect to the server.\n");
         return 1;
     }
-    printf("[Client] Connected to %s:%d (sockfd=%d)\n",
-            inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port), sockfd);
+    printf("[Client] Connected to %s:%d (sockfd=%d)\n", inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port), sockfd);
 
     if (recv(sockfd, buffer_recv, BUFFER_SIZE, 0) == -1) {
         printf("[Client] Failed to receive a message.\n");

@@ -18,7 +18,7 @@ int main() {
     char buffer_recv[BUFFER_SIZE] = { 0, };
     char buffer_send[] = "hello this is server!!";
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0); // SOCK_STREAM == TCP
 
     bzero(&server_addr, sizeof(server_addr));
     server_addr.sin_family      = AF_INET;
@@ -31,20 +31,17 @@ int main() {
     }
 
     listen(sockfd, 1);
-    printf("[Server] Server is running at %s:%d\n",
-            inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
+    printf("[Server] Server is running at %s:%d\n", inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
 
-    client_addr_size = sizeof(struct sockaddr);
+    client_addr_size = sizeof(client_addr);
     sockfd_accept = accept(sockfd, (struct sockaddr*)&client_addr, &client_addr_size);
     if (sockfd_accept == -1) {
         printf("[Server] Failed accept a connection.\n");
         close(sockfd);
         return 1;
     }
-
     printf("[Server] The client is connected. (%s:%d) (listen fd=%d, accept fd=%d)\n",
-            inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port),
-            sockfd, sockfd_accept);
+            inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), sockfd, sockfd_accept);
 
     if (send(sockfd_accept, buffer_send, strlen(buffer_send) + 1, 0) == -1) {
         printf("[Server] Failed to send a message.\n");
@@ -59,6 +56,5 @@ int main() {
 
     close(sockfd_accept);
     close(sockfd);
-
     return 0;
 }
