@@ -16,6 +16,18 @@ $ gcc -o client client.c && ./client
 
 
 ## 02. Basic UDP
+```
+$ gcc -o server server.c && ./server
+[Server] Received: hello from client~
+[Server] Client Info: 127.0.0.1:56467
+[Server] Sent a message to the client.
+```
+
+```
+$ gcc -o client client.c && ./client
+[Client] Sent a message to the server.
+[Client] Received: hello this is server!!
+```
 
 
 ## 03. Loop Server
