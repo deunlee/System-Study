@@ -7,14 +7,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define BUFFER_SIZE 4096
-#define DEFAULT_IP   "127.0.0.1"
+#define BUFFER_SIZE   1024
 #define DEFAULT_PORT 55555
+#define DEFAULT_IP   "127.0.0.1"
 
 int main() {
     int sockfd;
     struct sockaddr_in server_addr;
-    char buffer[BUFFER_SIZE] = { 0, };
+    char buffer_recv[BUFFER_SIZE] = { 0, };
     char buffer_send[] = "hello from client~";
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -28,15 +28,14 @@ int main() {
         printf("[Client] Cannot connect to the server.\n");
         return 1;
     }
+    printf("[Client] Connected to %s:%d (sockfd=%d)\n",
+            inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port), sockfd);
 
-    printf("[Client] SocketFD=%d\n", sockfd);
-
-    if (recv(sockfd, buffer, BUFFER_SIZE, 0) == -1) {
+    if (recv(sockfd, buffer_recv, BUFFER_SIZE, 0) == -1) {
         printf("[Client] Failed to receive a message.\n");
         return 1;
     }
-
-    printf("[Client] Received: %s\n", buffer);
+    printf("[Client] Received: %s\n", buffer_recv);
 
     if (send(sockfd, buffer_send, strlen(buffer_send) + 1, 0) == -1) {
         printf("[Client] Failed to send a message.\n");
@@ -44,6 +43,5 @@ int main() {
     }
 
     close(sockfd);
-
     return 0;
 }
