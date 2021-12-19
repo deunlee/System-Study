@@ -14,6 +14,11 @@ $ gcc -o client client.c && ./client
 [Client] Received: hello this is server!!
 ```
 
+```
+$ netstat -anp | grep 55555
+tcp        0      0 0.0.0.0:55555      0.0.0.0:*       LISTEN      2569/./server
+```
+
 
 ## 02. Basic UDP
 ```
@@ -27,6 +32,11 @@ $ gcc -o server server.c && ./server
 $ gcc -o client client.c && ./client
 [Client] Sent a message to the server.
 [Client] Received: hello this is server!!
+```
+
+```
+$ netstat -anp | grep 55555
+udp        0      0 0.0.0.0:55555      0.0.0.0:*                   2573/./server
 ```
 
 
