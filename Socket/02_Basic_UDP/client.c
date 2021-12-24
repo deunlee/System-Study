@@ -16,7 +16,7 @@ int main() {
     struct sockaddr_in server_addr;
     socklen_t server_addr_size;
     char buffer_recv[BUFFER_SIZE] = { 0, };
-    char buffer_send[] = "hello from client~";
+    char buffer_send[] = "Hello from the client~";
 
     sockfd = socket(AF_INET, SOCK_DGRAM, 0); // SOCK_DGRAM == UDP
 
@@ -27,13 +27,13 @@ int main() {
 
     server_addr_size = sizeof(server_addr);
     if (sendto(sockfd, buffer_send, strlen(buffer_send) + 1, 0, (struct sockaddr*)&server_addr, server_addr_size) == -1) {
-        printf("[Client] Failed to send a message.\n");
+        perror("[Error] Failed to send a message");
         return 1;
     }
     printf("[Client] Sent a message to the server.\n");
 
     if (recvfrom(sockfd, buffer_recv, BUFFER_SIZE, 0, (struct sockaddr*)&server_addr, &server_addr_size) == -1) {
-        printf("[Client] Failed to receive a message.\n");
+        perror("[Error] Failed to receive a message");
         return 1;
     }
     printf("[Client] Received: %s\n", buffer_recv);
