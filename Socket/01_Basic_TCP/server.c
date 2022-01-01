@@ -48,6 +48,7 @@ int main() {
         close(sockfd);
         return 1;
     }
+    printf("[Server] Sent a message to the client.\n");
 
     if (recv(sockfd_accept, buffer_recv, BUFFER_SIZE, 0) == -1) {
         perror("[Error] Failed to receive a message");
