@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     }
     printf("[Client] (%d) Connected to the server. (%s:%d)\n", getpid(), inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
 
-    // STEP 1. Receive message from server.
+    // STEP 1. Receive message from the server.
     if (recv(sockfd, buffer, BUFFER_SIZE, 0) == -1) {
         perror("[Error] Failed to receive a message");
         close(sockfd);
@@ -44,12 +44,12 @@ int main(int argc, char* argv[]) {
     }
     printf("[Client] (%d) Server says: %s\n", getpid(), buffer);
 
-    // STEP 2. Say hi to server.
+    // STEP 2. Say hi to the server.
     if (is_slow_client) { // Slow client simulation
         printf("[Client] (%d) I'm going to sleep...\n", getpid());
         sleep(10);
     }
-    sprintf(buffer, "Hi! I'm client and my pid is %d!!", getpid());
+    sprintf(buffer, "Hi! I'm client and my pid is %d.", getpid());
     if (send(sockfd, buffer, strlen(buffer) + 1, 0) == -1) {
         perror("[Error] Failed to send a message");
         close(sockfd);

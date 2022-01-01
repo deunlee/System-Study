@@ -48,19 +48,19 @@ A server that accepts a connection from a client and sends and receives messages
 If the client works fine, the server looks fine.
 
 ```
-$ gcc -o server server.c && ./server
+$ gcc -o server_loop server_loop.c && ./server_loop
 [Server] Server is running at 0.0.0.0:55555
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57788)
-[Server] Client says: Hi! I'm client and my pid is 9945!!
+[Server] Client says: Hi! I'm client and my pid is 9945.
 
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57790)
-[Server] Client says: Hi! I'm client and my pid is 9946!!
+[Server] Client says: Hi! I'm client and my pid is 9946.
 
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57792)
-[Server] Client says: Hi! I'm client and my pid is 9947!!
+[Server] Client says: Hi! I'm client and my pid is 9947.
 
 [Server] Waiting for a client...
 ```
@@ -93,15 +93,15 @@ $ gcc -o server server.c && ./server
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57800)
 -Stuck here for 10 seconds because of a slow client.
-[Server] Client says: Hi! I'm client and my pid is 10094!!
+[Server] Client says: Hi! I'm client and my pid is 10094.
 
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57802)
-[Server] Client says: Hi! I'm client and my pid is 10095!!
+[Server] Client says: Hi! I'm client and my pid is 10095.
 
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57804)
-[Server] Client says: Hi! I'm client and my pid is 10096!!
+[Server] Client says: Hi! I'm client and my pid is 10096.
 
 [Server] Waiting for a client...
 ```
