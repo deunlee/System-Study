@@ -128,6 +128,52 @@ $ ./client -s & ./client & ./client
 
 
 ## 04. Fork Server
+In a multiprocess-based server, the mentioned problem does not occur. 
+Even if there is a problem with the client with PID 12000, only the child process of the server with PID 12002 that handles it is delayed.
+As the parent process operates normally, the server can continue to accept other clients. 
+
+멀티 프로세스 기반 서버에서는 위에서 언급한 문제가 발생하지 않는다.
+PID가 12000인 클라이언트에 문제가 생겨도 그것을 처리하는 PID가 12002인 서버의 자식 프로세스만 지연된다.
+부모 프로세스가 정상 동작하므로 서버는 다른 클라이언트를 계속 받을 수 있다.
+
+```
+$ gcc -o server_fork server_fork.c && ./server_fork
+[Server] Server is running at 0.0.0.0:55555
+[Child] (PID=12002) Forked successfully.
+[Child] (PID=12002) Client is connected. (127.0.0.1:57870)
+[Child] (PID=12004) Forked successfully.
+[Child] (PID=12004) Client is connected. (127.0.0.1:57872)
+[Server] Client says: Hi! I'm client and my pid is 12001.
+[Server] Received a signal: User defined signal 1
+[Server] Child (PID=12004) returned: 0
+[Child] (PID=12005) Forked successfully.
+[Child] (PID=12005) Client is connected. (127.0.0.1:57874)
+[Server] Client says: Hi! I'm client and my pid is 12003.
+[Server] Received a signal: User defined signal 1
+[Server] Child (PID=12005) returned: 0
+[Server] Client says: Hi! I'm client and my pid is 12000.
+[Server] Received a signal: User defined signal 1
+[Server] Child (PID=12002) returned: 0
+```
+
+```
+$ gcc -o client client.c
+$ ./client -s & ./client & ./client
+[Client] (12000) Connected to the server. (127.0.0.1:55555)
+[1] 12000
+[Client] (12001) Connected to the server. (127.0.0.1:55555)
+[2] 12001
+[Client] (12000) Server says: Hello~ I'm a server!
+[Client] (12000) I'm going to sleep...
+[Client] (12001) Server says: Hello~ I'm a server!
+[Client] (12001) Sent a message to the server.
+[2]  + 12001 done       ./client
+[Client] (12003) Connected to the server. (127.0.0.1:55555)
+[Client] (12003) Server says: Hello~ I'm a server!
+[Client] (12003) Sent a message to the server.
+[Client] (12000) Sent a message to the server.
+[1]  + 12000 done       ./client -s
+```
 
 
 ## 05. Thread Server
