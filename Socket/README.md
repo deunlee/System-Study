@@ -44,8 +44,10 @@ udp        0      0 0.0.0.0:55555      0.0.0.0:*                   2573/./server
 
 ## 03. Loop Server
 A server that accepts a connection from a client and sends and receives messages in a while loop.
-
 If the client works fine, the server looks fine.
+
+다음은 while 반복문 안에서 클라이언트를 수락하고, 메시지를 주고 받는 서버이다.
+클라이언트가 잘 동작한다면, 서버도 잘 동작하는 것 처럼 보인다.
 
 ```
 $ gcc -o server_loop server_loop.c && ./server_loop
@@ -87,8 +89,12 @@ However, if there is a problem with the first client, the next connection will a
 If the -s option is given to the client, it will intentionally stop for 10 seconds.
 In the result below, you can see that the server is stopped because of the slow client and next clients are also stopped.
 
+하지만 첫 번째 클라이언트에 문제가 발생하면, 다음 연결에도 문제가 발생한다.
+이를 테스트하기 위해 클라이언트에 -s 옵션이 주어진 경우 고의적으로 10초간 멈추도록 하였다.
+아래 결과를 보면 느린 클라이언트 때문에 서버가 멈추고, 다음 클라이언트도 멈춘 것을 볼 수 있다.
+
 ```diff
-$ gcc -o server server.c && ./server
+$ gcc -o server_loop server_loop.c && ./server_loop
 [Server] Server is running at 0.0.0.0:55555
 [Server] Waiting for a client...
 [Server] Client is connected. (127.0.0.1:57800)
