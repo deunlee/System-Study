@@ -183,4 +183,40 @@ $ ./client -s & ./client & ./client
 
 
 ## 05. Thread Server
+A thread-based server works like a multiprocess-based server.
+Using threads is efficient because of less context switching, but if one thread fails, the entire program can be affected.
+
+스레드 기반 서버도 멀티프로세스 기반 서버와 같이 동작한다.
+스레드를 사용하면 컨텍스트 스위칭이 적게 발생하므로 효율적이지만, 하나의 스레드에 문제가 생기면 전체 프로그램에도 영향을 줄 수 있다.
+
+```
+$ gcc -pthread -o server_thread server_thread.c && ./server_thread
+[Server] Server is running at 0.0.0.0:55555
+[Thread] (TID=140684968068864) Client is connected. (127.0.0.1:57916)
+[Thread] (TID=140684959676160) Client is connected. (127.0.0.1:57918)
+[Thread] (TID=140684959676160) Client says: Hi! I'm client and my pid is 12847.
+[Thread] (TID=140684959676160) Client is connected. (127.0.0.1:57920)
+[Thread] (TID=140684959676160) Client says: Hi! I'm client and my pid is 12850.
+[Thread] (TID=140684968068864) Client says: Hi! I'm client and my pid is 12846.
+```
+
+```
+$ gcc -o client client.c
+$ ./client -s & ./client & ./client
+[Client] (12846) Connected to the server. (127.0.0.1:55555)
+[1] 12846
+[Client] (12846) Server says: Hello~ I'm a server!
+[Client] (12846) I'm going to sleep...
+[Client] (12847) Connected to the server. (127.0.0.1:55555)
+[2] 12847
+[Client] (12847) Server says: Hello~ I'm a server!
+[Client] (12847) Sent a message to the server.
+[2]  + 12847 done       ./client
+[Client] (12850) Connected to the server. (127.0.0.1:55555)
+[Client] (12850) Server says: Hello~ I'm a server!
+[Client] (12850) Sent a message to the server.
+[Client] (12846) Sent a message to the server.
+[1]  + 12846 done       ./client -s
+```
+
 
