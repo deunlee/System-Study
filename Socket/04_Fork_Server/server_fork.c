@@ -34,7 +34,7 @@ int communicate(int sockfd) {
         free(buffer);
         return 1;
     }
-    printf("[Server] Client says: %s\n", buffer);
+    printf("[Child] (PID=%d) Client says: %s\n", getpid(), buffer);
 
     close(sockfd);
     free(buffer);
