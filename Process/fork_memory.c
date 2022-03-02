@@ -16,13 +16,12 @@ int main() {
     local_var    = 20;
     *dynamic_var = 30;
     
-
     printf("INIT: Default memory value. (global=DATA, local=STACK, dynamic=HEAP)\n");
     printf("[Parent] global=%d (0x%p), local=%d (0x%p), dynamic=%d (0x%p)\n",
             global_var, &global_var, local_var, &local_var, *dynamic_var, dynamic_var);
 
-
-    printf("\nFIRST: After fork, child process modifies memory.\n");
+    printf("\n");
+    printf("FIRST: After fork, child process modifies memory.\n");
     pid = fork();
     if (pid < 0) {
         perror("fork");
@@ -40,8 +39,8 @@ int main() {
                 global_var, &global_var, local_var, &local_var, *dynamic_var, dynamic_var);
     }
 
-
-    printf("\nSECOND: After fork, parent process modifies memory.\n");
+    printf("\n");
+    printf("SECOND: After fork, parent process modifies memory.\n");
     pid = fork();
     if (pid < 0) {
         perror("fork");
