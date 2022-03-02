@@ -30,6 +30,7 @@ int main() {
         return 1;
     }
 
+    client_addr_size = sizeof(client_addr);
     if (recvfrom(sockfd, buffer_recv, BUFFER_SIZE, 0, (struct sockaddr*)&client_addr, &client_addr_size) == -1) {
         perror("[Error] Failed to receive a message");
         return 1;
