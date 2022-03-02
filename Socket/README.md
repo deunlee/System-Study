@@ -223,4 +223,30 @@ $ ./client -s & ./client & ./client
 
 
 ## 06. File Transfer
+```
+$ dd if=/dev/zero of=/tmp/zero_16mb bs=1024 count=16384
+16384+0 records in
+16384+0 records out
+16777216 bytes (17 MB, 16 MiB) copied, 0.0286168 s, 586 MB/s
+$ sha1sum /tmp/zero_16mb
+3b4417fc421cee30a9ad0fd9319220a8dae32da2  /tmp/zero_16mb
+$ gcc -o server server.c && ./server
+[Server] Server is running at 0.0.0.0:55555
+[Server] Client is connected. (127.0.0.1:47004)
+[Server] Requested file: /tmp/zero_16mb
+[Server] File transfer complete
+```
+
+```
+$ gcc -o client client.c && ./client 127.0.0.1 55555 /tmp/zero_16mb
+[Client] Connected to the server. (127.0.0.1:55555)
+[Client] File size is 16777216 bytes. (16.0 MB)
+
+100% [===========================================================>] 491.7 MB/s
+
+[Client] Received complete!
+$ sha1sum zero_16mb
+3b4417fc421cee30a9ad0fd9319220a8dae32da2  zero_16mb
+```
+
 
