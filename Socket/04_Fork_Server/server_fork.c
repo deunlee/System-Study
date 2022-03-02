@@ -10,9 +10,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define MAX_CLIENTS      5 // backlog
-#define BUFFER_SIZE   1024
-#define DEFAULT_PORT 55555
+#define MAX_CLIENTS          5 // backlog
+#define BUFFER_SIZE       1024
+#define DEFAULT_PORT     55555
 #define DEFAULT_IP   "0.0.0.0"
 
 int communicate(int sockfd) {
@@ -41,24 +41,19 @@ int communicate(int sockfd) {
     return 0;
 }
 
-int child(int sockfd) {
-    int ret;
-    ret = communicate(sockfd);
-    kill(getppid(), SIGUSR1); // Send SIGUSR1 signal to the parent.
-    return ret;
-}
-
 void signal_handler(int signal) {
     pid_t pid;
     int status;
-
-    psignal(signal, "[Server] Received a signal");
-
-    pid = wait(&status);
-    if (pid > 0) {
-        printf("[Server] Child (PID=%d) returned: %d\n", pid, WEXITSTATUS(status));
-    } else if (pid == -1) {
-        perror("[Error] Failed to wait a child process");
+    psignal(signal, "[Server] Received signal");
+    if (signal == SIGCHLD) { // When the child process exits
+        // To wait for any child process, use -1 as PID. Use WNOHANG flag for non-blocking mode.
+        // If several children are terminated at the same time, 
+        // SIGCHLD signal may be delivered less than the number of children, so while loop should be used.
+        while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+            if (debug) {
+                printf("[Server] (PID=%d) Child returned: %d\n", pid, WEXITSTATUS(status));
+            }
+        }
     }
 }
 
@@ -69,9 +64,9 @@ int main(int argc, char* argv[]) {
     pid_t pid;
     struct sigaction act;
 
-    act.sa_flags = 0;
+    act.sa_flags   = 0;
     act.sa_handler = signal_handler;
-    sigaction(SIGUSR1, &act, NULL); // Registers SIGUSR1 signal for child process return handling.
+    sigaction(SIGCHLD, &act, NULL); // Register signal for child process return handling.
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -108,7 +103,7 @@ int main(int argc, char* argv[]) {
             printf("[Child] (PID=%d) Forked successfully.\n", getpid());
             printf("[Child] (PID=%d) Client is connected. (%s:%d)\n", getpid(), inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
             close(sockfd); // Since the listen socket is not used in child, close it.
-            return child(sockfd_accept);
+            return communicate(sockfd_accept);
         } else if (pid < 0) {
             perror("[Error] Failed to create a child process");
             close(sockfd_accept);

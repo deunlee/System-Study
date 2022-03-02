@@ -7,9 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define MAX_CLIENTS      5 // backlog
-#define BUFFER_SIZE   1024
-#define DEFAULT_PORT 55555
+#define MAX_CLIENTS          5 // backlog
+#define BUFFER_SIZE       1024
+#define DEFAULT_PORT     55555
 #define DEFAULT_IP   "0.0.0.0"
 
 int main() {
