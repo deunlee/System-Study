@@ -1,9 +1,8 @@
 # Thread-Study
 
 ## [counting.c](./counting.c)
-
-**`gcc -lpthread -o counting counting.c && ./counting 4`**
 ```
+$ gcc -pthread -o counting counting.c && ./counting 4
 Thread Count: 4
 
 |<TH 0>|<TH 1>|<TH 2>|<TH 3>|
@@ -32,3 +31,7 @@ Thread #1 returned 1
 Thread #2 returned 2
 Thread #3 returned 3
 ```
+
+
+## Multi-Threaded Server
+See [../Socket/05_Thread_Server](../Socket/05_Thread_Server/server_thread.c)
