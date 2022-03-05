@@ -84,8 +84,6 @@ int main(int argc, char* argv[]) {
                 break;
             }
         }
-    }
-    if (!is_error) {
         printf("[Server] File transfer complete!\n");
     }
 
