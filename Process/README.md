@@ -24,7 +24,7 @@ The parent and child processes have the same virtual memory space at the same ad
 but changing value on one side does not affect the other side.
 
 부모 프로세스와 자식 프로세스는 동일한 주소의 가상 메모리 공간을 갖지만,
-한 쪽에서 내용을 변경할 경우 다른 쪽에 영향을 미치지 않는다.
+한 쪽에서 내용을 변경할 경우 다른 쪽에 영향을 미치지 않는 것을 볼 수 있습니다.
 
 ```
 $ gcc -o fork_memory fork_memory.c && ./fork_memory
@@ -48,10 +48,10 @@ Therefore, the child can access the file without reopening it.
 In the process of fork()ing "Before fork" string that was not written to the file and remained in the buffer 
 copied to the child process and printed twice.
 
-부모 프로세스와 자식 프로세스는 파일 기술자를 공유하기 때문에 자식 프로세스에서는 파일을 다시 열지 않아도 접근이 가능하다.
-(f)printf 함수는 성능 향상을 목적으로 내부적으로 버퍼를 사용한다.
+부모 프로세스와 자식 프로세스는 파일 기술자를 공유하기 때문에 자식 프로세스에서는 파일을 다시 열지 않아도 접근이 가능합니다.
+(f)printf 함수는 성능 향상을 목적으로 내부적으로 버퍼를 사용합니다.
 파일에 기록되지 않고 버퍼에 남아있었던 "Before fork" 문자열이 fork()하는 과정에서
-자식 프로세스에게도 복사되어 두 번 출력된 것을 볼 수 있다.
+자식 프로세스에게도 복사되어 두 번 출력된 것을 볼 수 있습니다.
 
 ```
 $ gcc -o fork_file fork_file.c && ./fork_file
@@ -66,7 +66,7 @@ After calling fflush() to empty the buffer, fork() creates a child with empty bu
 and you can see the output as intended.
 
 만약 fflush()를 호출해서 버퍼를 비운 뒤 fork()하면, 
-부모 프로세스의 버퍼가 비워진 채로 자식 프로세스가 생성되어 의도한 대로 작동하는 것을 볼 수 있다.
+부모 프로세스의 버퍼가 비워진 채로 자식 프로세스가 생성되어 의도한 대로 작동하는 것을 볼 수 있습니다.
 
 ```
 $ gcc -o fork_file fork_file.c && ./fork_file --fflush 
